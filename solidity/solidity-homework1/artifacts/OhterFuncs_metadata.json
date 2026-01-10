@@ -1,0 +1,162 @@
+{
+	"compiler": {
+		"version": "0.8.31+commit.fd3a2265"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "int256[]",
+						"name": "arr",
+						"type": "int256[]"
+					},
+					{
+						"internalType": "int256",
+						"name": "target",
+						"type": "int256"
+					}
+				],
+				"name": "binarySearch",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "num",
+						"type": "uint256"
+					}
+				],
+				"name": "intToRoman",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "int256[]",
+						"name": "arr1",
+						"type": "int256[]"
+					},
+					{
+						"internalType": "int256[]",
+						"name": "arr2",
+						"type": "int256[]"
+					}
+				],
+				"name": "mergeSortedArrays",
+				"outputs": [
+					{
+						"internalType": "int256[]",
+						"name": "",
+						"type": "int256[]"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "roman",
+						"type": "string"
+					}
+				],
+				"name": "remanToInt",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_input",
+						"type": "string"
+					}
+				],
+				"name": "reverseString",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "res",
+						"type": "string"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"binarySearch(int256[],int256)": {
+					"details": "Performs binary search on a sorted array",
+					"params": {
+						"arr": "The sorted array to search",
+						"target": "The value to search for"
+					},
+					"returns": {
+						"_0": "The index of the target if found, -1 otherwise"
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"otherfuncs.sol": "OhterFuncs"
+		},
+		"evmVersion": "osaka",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"otherfuncs.sol": {
+			"keccak256": "0xc5fdbce89217e41a08e7454c6f37c561258897f38afed18b2629da5167b9d802",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0957aa0428c564dbdfc496a63502d3a991a846535b7dc6b60cd6e1c46441c52f",
+				"dweb:/ipfs/QmcaShG8rQXouidTF8K6MhEvP18p6LXCgsgQGiL5iHLATA"
+			]
+		}
+	},
+	"version": 1
+}
