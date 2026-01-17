@@ -1,0 +1,28 @@
+{
+  "name": "nft-auction-market",
+  "version": "1.0.0",
+  "description": "NFT Auction Market with Chainlink Price Feed and UUPS Proxy",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.js",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:proxy": "hardhat run scripts/deploy-proxy.js"
+  },
+  "keywords": ["nft", "auction", "hardhat", "chainlink", "openzeppelin"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "hardhat": "^2.17.0",
+    "hardhat-deploy": "^0.11.43"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^0.8.0",
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.3",
+    "dotenv": "^16.3.1"
+  }
+}
