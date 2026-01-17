@@ -112,23 +112,12 @@ contract MockPriceOracle {
         }
     }
 
-    function getPrice(address token) external view returns (uint256) {
-        require(address(priceFeeds[token]) != address(0), "Price feed not set");
-
-        (, int256 answer, , , ) = priceFeeds[token].latestRoundData();
-        require(answer > 0, "Invalid price");
-
-        // 转换为 18 位精度
-        return uint256(answer) * 1e10;
-    }
-
     function getValueInUSD(address token, uint256 amount)
         external
         view
         returns (uint256)
     {
-        uint256 price = getPrice(token);
-        return (price * amount) / PRECISION;
+        return (getPrice(token) * amount) / PRECISION;
     }
 
     function getAmountFromUSD(address token, uint256 usdAmount)
@@ -136,8 +125,17 @@ contract MockPriceOracle {
         view
         returns (uint256)
     {
-        uint256 price = getPrice(token);
-        return (usdAmount * PRECISION) / price;
+        return (usdAmount * PRECISION) / getPrice(token);
+    }
+
+    function getPrice(address token) public view returns (uint256) {
+        require(address(priceFeeds[token]) != address(0), "Price feed not set");
+
+        (, int256 answer, , , ) = priceFeeds[token].latestRoundData();
+        require(answer > 0, "Invalid price");
+
+        // 转换为 18 位精度
+        return uint256(answer) * 1e10;
     }
 
     function isFeedAvailable(address token) external view returns (bool) {

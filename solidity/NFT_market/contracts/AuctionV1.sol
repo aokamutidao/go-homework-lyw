@@ -4,15 +4,15 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 /**
  * @title AuctionV1
  * @dev NFT 拍卖市场合约，支持 ETH 和 ERC20 出价
  */
-contract AuctionV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable, ReentrancyGuard {
+contract AuctionV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable, ReentrancyGuardUpgradeable {
     // 拍卖状态
     enum AuctionStatus {
         Pending,
@@ -184,7 +184,7 @@ contract AuctionV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable, Reentr
             "Unsupported token"
         );
 
-        // 检查 NFT 所有权
+        // 检查 NFT 所有权， 只有nft的所有者能发起拍卖
         require(
             IERC721(_nftContract).ownerOf(_tokenId) == msg.sender,
             "Not NFT owner"
@@ -345,7 +345,7 @@ contract AuctionV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable, Reentr
 
             // 转移手续费
             if (fee > 0) {
-                _transferPayment(feeConfig.feeRecipient, auction.highestBid, auction.bidToken);
+                _transferPayment(payable(feeConfig.feeRecipient), auction.highestBid, auction.bidToken);
             }
 
             // 转移 NFT 给买家
@@ -356,7 +356,7 @@ contract AuctionV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable, Reentr
             );
 
             // 转移余额给卖家
-            _transferPayment(auction.seller, sellerProceeds, auction.bidToken);
+            _transferPayment(payable(auction.seller), sellerProceeds, auction.bidToken);
 
             emit AuctionEnded(auctionId, auction.highestBidder, auction.highestBid);
         }
@@ -496,17 +496,17 @@ contract AuctionV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable, Reentr
     // 内部函数
 
     function _refundBid(address bidder, uint256 amount, address token) internal {
-        _transferPayment(bidder, amount, token);
+        _transferPayment(payable(bidder), amount, token);
         emit BidRefunded(0, bidder, amount);
     }
 
-    function _transferPayment(address to, uint256 amount, address token)
+    function _transferPayment(address payable to, uint256 amount, address token)
         internal
     {
         if (amount == 0) return;
 
         if (token == address(0)) {
-            (bool success, ) = payable(to).call{value: amount}("");
+            (bool success, ) = to.call{value: amount}("");
             require(success, "ETH transfer failed");
         } else {
             require(

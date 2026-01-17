@@ -54,7 +54,7 @@ contract PriceOracle {
         _addPriceFeed(address(0), 0x694AA1769357215DE4FAC081bf1f309aDC325306, "ETH/USD");
 
         // LINK/USD
-        _addPriceFeed(0x779877A7B0D9E8603169DdbD7836e478b4624789, 0xc59E3633BAAC7949054ecF67bfbE17F056c9D407, "LINK/USD");
+        _addPriceFeed(0x779877A7B0D9E8603169DdbD7836e478b4624789, 0xc59E3633BaAC7949054EcF67Bfbe17f056c9d407, "LINK/USD");
     }
 
     /**
@@ -104,11 +104,49 @@ contract PriceOracle {
     }
 
     /**
+     * @dev 获取 ETH 的美元价格
+     */
+    function getEthPrice() external view returns (uint256) {
+        return getPrice(address(0));
+    }
+
+    /**
+     * @dev 将 ETH 数量转换为美元
+     */
+    function getEthValueInUSD(uint256 ethAmount)
+        external
+        view
+        returns (uint256)
+    {
+        // 直接实现，不调用 getValueInUSD
+        address feedAddr = priceFeeds[address(0)];
+        require(feedAddr != address(0), "Price feed not set");
+        (, int256 answer, , , ) = AggregatorV3Interface(feedAddr).latestRoundData();
+        require(answer > 0, "Invalid price");
+        uint256 price = uint256(answer) * 1e10;
+        return (price * ethAmount) / PRECISION;
+    }
+
+    /**
+     * @dev 获取多个代币的价格
+     */
+    function getMultiplePrices(address[] calldata tokens)
+        external
+        view
+        returns (uint256[] memory prices)
+    {
+        prices = new uint256[](tokens.length);
+        for (uint256 i = 0; i < tokens.length; i++) {
+            prices[i] = getPrice(tokens[i]);
+        }
+    }
+
+    /**
      * @dev 获取代币的美元价格
      * @param token 代币地址（address(0) 表示 ETH）
      * @return price 代币的美元价格（精度 1e18）
      */
-    function getPrice(address token) external view returns (uint256 price) {
+    function getPrice(address token) public view returns (uint256 price) {
         address feedAddr = priceFeeds[token];
         require(feedAddr != address(0), "Price feed not set");
 
@@ -120,13 +158,6 @@ contract PriceOracle {
         // Chainlink 返回的价格精度是 8 位小数
         // 转换为 18 位精度
         return uint256(answer) * 1e10;
-    }
-
-    /**
-     * @dev 获取 ETH 的美元价格
-     */
-    function getEthPrice() external view returns (uint256) {
-        return getPrice(address(0));
     }
 
     /**
@@ -147,17 +178,6 @@ contract PriceOracle {
     }
 
     /**
-     * @dev 将 ETH 数量转换为美元
-     */
-    function getEthValueInUSD(uint256 ethAmount)
-        external
-        view
-        returns (uint256)
-    {
-        return getValueInUSD(address(0), ethAmount);
-    }
-
-    /**
      * @dev 将美元转换为代币数量
      * @param token 代币地址
      * @param usdAmount 美元金额
@@ -171,20 +191,6 @@ contract PriceOracle {
         uint256 price = getPrice(token);
         // usdAmount / price 得到代币数量（考虑精度）
         return (usdAmount * PRECISION) / price;
-    }
-
-    /**
-     * @dev 获取多个代币的价格
-     */
-    function getMultiplePrices(address[] calldata tokens)
-        external
-        view
-        returns (uint256[] memory prices)
-    {
-        prices = new uint256[](tokens.length);
-        for (uint256 i = 0; i < tokens.length; i++) {
-            prices[i] = getPrice(tokens[i]);
-        }
     }
 
     /**

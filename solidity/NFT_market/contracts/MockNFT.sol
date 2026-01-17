@@ -20,7 +20,7 @@ contract MockNFT is ERC721, ERC721URIStorage, Ownable {
     // 批量铸造的 nonce
     uint256 public nextTokenIdToMint;
 
-    constructor() ERC721("MockNFT", "MNFT") Ownable(msg.sender) {}
+    constructor() ERC721("MockNFT", "MNFT") Ownable() {}
 
     /**
      * @dev 铸造 NFT 到指定地址

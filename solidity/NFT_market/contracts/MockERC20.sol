@@ -15,11 +15,11 @@ contract MockERC20 is ERC20, Ownable {
         string memory name,
         string memory symbol,
         uint8 dec
-    ) ERC20(name, symbol) Ownable(msg.sender) {
+    ) ERC20(name, symbol) Ownable() {
         _decimals = dec;
     }
 
-    function decimals() public view override returns uint8) {
+    function decimals() public view override returns (uint8) {
         return _decimals;
     }
 
