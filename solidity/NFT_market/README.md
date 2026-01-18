@@ -149,3 +149,25 @@ MIT License
 
 ## 测试报告
 ![alt text](image.png)
+
+### 部署地址
+开始部署 NFT Auction Market 合约...
+
+部署账户: 0x56c2A57C6E42bFd4e6724ff4853EB6025F667A07
+账户余额: 270914664699855537
+
+1. 部署 MockNFT 合约...
+MockNFT 部署地址: 0xba88fD2Fe6F5DCEb21270c2e65625893c0c9e3d3
+
+2. 部署 MockERC20 合约...
+MockERC20 部署地址: 0x8749Eb96B370e0Aba28AE8f2082a820604CeDCC2
+
+3. 部署 PriceOracle 合约...
+PriceOracle 部署地址: 0xece8BCEfbB62f461B8150dc99936CEa54DdA1D14
+
+4. 部署 AuctionV1 合约 (UUPS Proxy)...
+AuctionV1 部署地址: 0x30a252E03f8c53aC9A451d6E426b03Ca8f71CEc8
+AuctionV1 Proxy Admin: 0x0000000000000000000000000000000000000000
+
+5. 配置合约...
+已添加 0x8749Eb96B370e0Aba28AE8f2082a820604CeDCC2 到支持代币列表

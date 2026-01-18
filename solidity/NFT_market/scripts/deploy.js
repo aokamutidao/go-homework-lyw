@@ -58,38 +58,23 @@ async function main() {
     // 6. 演示：铸造 NFT 和代币
     console.log("6. 演示铸造...");
     const tokenURI = "ipfs://QmTest123456789";
-    await mockNFT.mint(deployer.address, tokenURI);
+    await mockNFT.safeMint(deployer.address, tokenURI);
     console.log(`铸造 NFT #0 到 ${deployer.address}`);
 
     await mockERC20.mint(deployer.address, ethers.utils.parseEther("10000"));
     console.log(`铸造 10000 TEST 到 ${deployer.address}\n`);
 
-    // 7. 创建示例拍卖
-    console.log("7. 创建示例拍卖...");
-    const startingPrice = ethers.utils.parseEther("0.1");
-    const duration = 24 * 60 * 60; // 24小时
-
-    await mockNFT.setApprovalForAll(auction.address, true);
-    const tx = await auction.createAuction(
-        mockNFT.address,
-        0,
-        startingPrice,
-        duration,
-        ethers.constants.AddressZero // ETH 出价
-    );
-    const receipt = await tx.wait();
-    const auctionId = receipt.events.find(e => e.event === "AuctionCreated").args.auctionId;
-    console.log(`创建拍卖 #${auctionId}\n`);
-
-    // 打印部署摘要
+    // 7. 打印部署摘要（跳过示例拍卖，可在 UI 中操作）
+    console.log("7. 部署完成！\n");
     console.log("=".repeat(50));
-    console.log("部署完成！\n");
     console.log("合约地址:");
     console.log(`  - MockNFT:    ${mockNFT.address}`);
     console.log(`  - MockERC20:  ${mockERC20.address}`);
     console.log(`  - PriceOracle: ${priceOracle.address}`);
     console.log(`  - Auction:    ${auction.address}`);
-    console.log("\n拍卖 ID:", auctionId.toString());
+    console.log("\n提示: 可在 Etherscan 上调用以下函数:");
+    console.log("  1. mockNFT.setApprovalForAll(auction.address, true)");
+    console.log("  2. auction.createAuction(...)");
     console.log("=".repeat(50));
 }
 
