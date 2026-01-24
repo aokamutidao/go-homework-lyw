@@ -1,0 +1,34 @@
+# Local .env file (contains private keys!)
+.env
+
+# Go binary
+counter-demo
+
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output of go coverage
+*.out
+
+# Go workspace
+go.work
+
+# Editor directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node.js dependencies (optional - if you want to recompile later)
+node_modules/
